@@ -29,25 +29,25 @@ def convert_room_num(df):
 
 def convert_district(df):
     for i, r in df.iterrows():
-        if r[0] == 'Голосіївський':
+        if r[0] == 'Деснянський':
             df.iloc[[i], [0]] = 1
-        elif r[0] == 'Дарницький':
-            df.iloc[[i], [0]] = 2
-        elif r[0] == 'Деснянський':
-            df.iloc[[i], [0]] = 3
-        elif r[0] == 'Дніпровський':
-            df.iloc[[i], [0]] = 4
-        elif r[0] == 'Оболонський':
-            df.iloc[[i], [0]] = 5
-        elif r[0] == 'Печерський':
-            df.iloc[[i], [0]] = 6
-        elif r[0] == 'Подільський':
-            df.iloc[[i], [0]] = 7
         elif r[0] == 'Святошинський':
-            df.iloc[[i], [0]] = 8
+            df.iloc[[i], [0]] = 2
+        elif r[0] == 'Дніпровський':
+            df.iloc[[i], [0]] = 3
+        elif r[0] == 'Дарницький':
+            df.iloc[[i], [0]] = 4
         elif r[0] == "Солом'янський":
-            df.iloc[[i], [0]] = 9
+            df.iloc[[i], [0]] = 5
+        elif r[0] == 'Подільський':
+            df.iloc[[i], [0]] = 6
+        elif r[0] == 'Голосіївський':
+            df.iloc[[i], [0]] = 7
+        elif r[0] == 'Оболонський':
+            df.iloc[[i], [0]] = 8
         elif r[0] == 'Шевченківський':
+            df.iloc[[i], [0]] = 9
+        elif r[0] == 'Печерський':
             df.iloc[[i], [0]] = 10
     return df
 
@@ -55,8 +55,14 @@ def convert_district(df):
 def rename_columns(df):
     df.columns.values[0] = "district"
     df.columns.values[1] = "rooms"
-    df.columns.values[2] = "average_area"
-    df.columns.values[3] = "average_price"
+    df.columns.values[2] = "amount"
+    df.columns.values[3] = "area"
+    df.columns.values[4] = "price_uah"
+    df.columns.values[5] = "price_uah_sm"
+    df.columns.values[6] = "diff_uah"
+    df.columns.values[7] = "price_usd"
+    df.columns.values[8] = "price_usd_sm"
+    df.columns.values[9] = "diff_usd"
     return df
 
 
@@ -67,21 +73,17 @@ def convert_column_to_int(df, col):
     return df
 
 
-def read_dataset(folder, filename):
+def read_dataset(folder, filename, month):
     df = pd.read_csv(folder + "/" + filename)
+    df = rename_columns(df)
+    df = df.drop(['amount', 'price_uah', 'price_uah_sm', 'diff_uah', 'price_usd_sm', 'diff_usd'], axis=1)
     df = df.drop([0, 1, 2, 3, 4]).reset_index(drop=True)
-    df = df.drop(df.columns[[3, 4, 5, 6, 7, 9]], axis=1)
     df = fill_nan_column(df, 0)
     df = df.dropna().reset_index(drop=True)
     df = convert_district(df)
     df = convert_room_num(df)
-    df = rename_columns(df)
-    df = convert_column_to_int(df, 2)
     df = convert_column_to_int(df, 3)
-
-    tokens = filename.split(".")
-    df.insert(0, 'year', int(tokens[0]))
-    df.insert(1, 'month', int(tokens[1]))
+    df.insert(0, 'month', month)
     return df
 
 
@@ -89,11 +91,12 @@ files = os.listdir("data")
 files.sort()
 print(files)
 if len(files) > 0:
-    data = read_dataset("data", files[0])
+    data = read_dataset("data", files[0], 1)
     for i in range(1, len(files)):
-        data = pd.concat([data, read_dataset("data", files[i])])
+        data = pd.concat([data, read_dataset("data", files[i], i + 1)])
     data = data.reset_index(drop=True)
 
+print(data.columns)
 print(data)
 print(data.dtypes)
 data.to_csv("dataframe.csv", index=False)
