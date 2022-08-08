@@ -76,7 +76,7 @@ def convert_column_to_int(df, col):
 def read_dataset(folder, filename, month):
     df = pd.read_csv(folder + "/" + filename)
     df = rename_columns(df)
-    df = df.drop(['amount', 'price_uah', 'price_uah_sm', 'diff_uah', 'price_usd_sm', 'diff_usd'], axis=1)
+    df = df.drop(['amount', 'price_uah', 'price_uah_sm', 'diff_uah', 'price_usd', 'diff_usd'], axis=1)
     df = df.drop([0, 1, 2, 3, 4]).reset_index(drop=True)
     df = fill_nan_column(df, 0)
     df = df.dropna().reset_index(drop=True)

@@ -13,34 +13,40 @@ def plot(x, y, x_title, y_title, title):
     plt.title(title, fontsize=18)
 
 
-# # Місяць з початку спостережень і ціни на житло
+# Місяць з початку спостережень і ціни на житло
+plot(data["month"], data["price_usd_sm"], "Місяць", "Середня вартість", "Вартість однокімнатних квартир по місяцях")
+plt.show()
 # plot(data.loc[data['rooms'] == 1]["month"], data.loc[data['rooms'] == 1]["price_usd"], "Місяць", "Середня вартість", "Вартість однокімнатних квартир по місяцях")
 # plot(data.loc[data['rooms'] == 2]["month"], data.loc[data['rooms'] == 2]["price_usd"], "Місяць", "Середня вартість", "Вартість двокімнатних квартир по місяцях")
 # plot(data.loc[data['rooms'] == 3]["month"], data.loc[data['rooms'] == 3]["price_usd"], "Місяць", "Середня вартість", "Вартість трикімнатних квартир по місяцях")
 # plot(data.loc[data['rooms'] == 4]["month"], data.loc[data['rooms'] == 4]["price_usd"], "Місяць", "Середня вартість", "Вартість чотрьохкімнатних квартир по місяцях")
 # plt.show()
-#
-# # Район і ціни на житло
+
+# Район і ціни на житло
+plot(data["district"], data["price_usd_sm"], "Район", "Середня вартість", "Вартість однокімнатних квартир по районах")
+plt.show()
 # plot(data.loc[data['rooms'] == 1]["district"], data.loc[data['rooms'] == 1]["price_usd"], "Район", "Середня вартість", "Вартість однокімнатних квартир по районах")
 # plot(data.loc[data['rooms'] == 2]["district"], data.loc[data['rooms'] == 2]["price_usd"], "Район", "Середня вартість", "Вартість двокімнатних квартир по районах")
 # plot(data.loc[data['rooms'] == 3]["district"], data.loc[data['rooms'] == 3]["price_usd"], "Район", "Середня вартість", "Вартість трикімнатних квартир по районах")
 # plot(data.loc[data['rooms'] == 4]["district"], data.loc[data['rooms'] == 4]["price_usd"], "Район", "Середня вартість", "Вартість чотрьохкімнатних квартир по районах")
 # plt.show()
 
-# Кількість кімнат і ціни на житло
-plot(data["rooms"], data["price_usd"], "Загаьна площа", "Середня вартість", "Вартість однокімнатних квартир від загальної площі")
+# Кількість і ціни на житло
+plot(data["rooms"], data["price_usd_sm"], "Кількість кімнат", "Середня вартість", "Вартість квартир від кількості кімнат")
 plt.show()
 
-# # Загальна площа і ціни на житло
+# Загальна площа і ціни на житло
+plot(data["area"], data["price_usd_sm"], "Загаьна площа", "Середня вартість", "Вартість квартир від загальної площі")
+plt.show()
 # plot(data.loc[data['rooms'] == 1]["area"], data.loc[data['rooms'] == 1]["price_usd"], "Загаьна площа", "Середня вартість", "Вартість однокімнатних квартир від загальної площі")
 # plot(data.loc[data['rooms'] == 2]["area"], data.loc[data['rooms'] == 2]["price_usd"], "Загаьна площа", "Середня вартість", "Вартість двокімнатних квартир від загальної площі")
 # plot(data.loc[data['rooms'] == 3]["area"], data.loc[data['rooms'] == 3]["price_usd"], "Загаьна площа", "Середня вартість", "Вартість трикімнатних квартир від загальної площі")
 # plot(data.loc[data['rooms'] == 4]["area"], data.loc[data['rooms'] == 4]["price_usd"], "Загаьна площа", "Середня вартість", "Вартість чотрьохкімнатних квартир від загальної площі")
 # plt.show()
 
-corr = data.corr()
-print(corr)
-# plt.matshow(corr)
-sns.heatmap(corr, annot=True)
-plt.title("Матриця кореляціі", fontsize=18)
-plt.show()
+# corr = data.corr()
+# print(corr)
+# # plt.matshow(corr)
+# sns.heatmap(corr, annot=True)
+# plt.title("Матриця кореляціі", fontsize=18)
+# plt.show()
