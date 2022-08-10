@@ -2,13 +2,20 @@ import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import StandardScaler
 from sklearn import metrics
 import matplotlib.pyplot as plt
 
 
 def run(df, rooms):
+    scaler = StandardScaler()
+
     x = df.loc[data['rooms'] == rooms][['month', 'district', 'area']]
     y = df.loc[data['rooms'] == rooms]['price_usd']
+
+    scaled = scaler.fit_transform(x)
+    x = pd.DataFrame(scaled, columns=['month', 'district', 'area'])
+    print(x)
 
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2)
 
@@ -37,7 +44,7 @@ def normalize(df):
 data = pd.read_csv("dataframe.csv")
 data = normalize(data)
 
-run(4)
-run(3)
-run(2)
-run(1)
+run(data, 4)
+run(data, 3)
+run(data, 2)
+run(data, 1)
